@@ -1,5 +1,6 @@
 from afterpay.configuration import Configuration
 
+
 class ClientToken(object):
     @staticmethod
     def generate(params=None, gateway=None):

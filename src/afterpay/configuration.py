@@ -3,6 +3,7 @@ from afterpay.environment import Environment
 from afterpay.exceptions.configuration_error import ConfigurationError
 from afterpay.util.http import Http
 
+
 class Configuration(object):
     """
     Create a configuration object
@@ -22,9 +23,9 @@ class Configuration(object):
         :param merchant_id: Afterpay merchant ID
         :param secret_key: Afterpay secret key
         :param kwargs:
-            :param http_strategy: Class to make requests
-            :param timeout: Seconds before a request times out
-            :param wrap_http_exceptions: Return detailed exception
+            http_strategy: Class to make requests
+            timeout: Seconds before a request times out
+            wrap_http_exceptions: Return detailed exception
         """
         Configuration.environment = Environment.parse_environment(environment)
         Configuration.merchant_id = merchant_id
@@ -78,8 +79,6 @@ class Configuration(object):
             self._http_strategy = self.http()
 
         self.payment_limits = self.get_payment_limits()
-        self.minimum_amount = self.payment_limits[0]
-        self.maximum_amount = self.payment_limits[1]
 
     def api_url(self):
         return self.environment.protocol + self.environment.server_and_port + "/" + self.api_version()

@@ -1,5 +1,6 @@
 import requests
 import json
+from base64 import encodebytes
 from afterpay import version
 from afterpay.exceptions.authentication_error import AuthenticationError
 from afterpay.exceptions.invalid_request import InvalidRequestError
@@ -130,9 +131,17 @@ class Http(object):
         elif method == "DELETE":
             return requests.delete
 
+    def __authorization_header(self):
+        return b"Basic " + encodebytes(
+                    self.config.merchant_id.encode('ascii') +
+                    b":" +
+                    self.config.secret_key.encode('ascii')
+                ).replace(b"\n", b"").strip()
+
     def __headers(self, header_overrides=None):
         headers = {
             "Accept": "application/json",
+            "Authorization": self.__authorization_header(),
             "User-Agent": "Python Afterpay Library " + version.Version,
         }
 

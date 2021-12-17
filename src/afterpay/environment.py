@@ -2,6 +2,7 @@ import os
 import inspect
 import certifi
 
+
 class Environment(object):
     """
     Create an environment
@@ -53,6 +54,7 @@ class Environment(object):
 
     def __str__(self):
         return self.__name__
+
 
 Environment.Sandbox_NA = Environment("sandbox", "api.us-sandbox.afterpay.com", "443", True, certifi.where())
 Environment.Sandbox_OC = Environment("sandbox", "api-sandbox.afterpay.com", "443", True, certifi.where())
