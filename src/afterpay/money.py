@@ -35,5 +35,7 @@ class Money(AttributeGetter):
 
     def get_json(self):
         return {
-            i: super(Money, self).__dict__[i] for i in super(Money, self).__dict__ if i in self.attribute_list
+            "amount": {
+                i: super(Money, self).__dict__[i] for i in super(Money, self).__dict__ if i in self.attribute_list
+            }
         }

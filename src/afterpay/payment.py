@@ -1,7 +1,11 @@
 import uuid
+# from afterpay.consumer import Consumer
+# from afterpay.contact import Contact
+# from afterpay.merchant import Merchant
+# from afterpay.money import Money
 from afterpay.exceptions.afterpay_error import AfterpayError
 from afterpay.exceptions.params_error import ParamsError
-from afterpay.exceptions.payment_error import PaymentError
+# from afterpay.exceptions.payment_error import PaymentError
 
 
 class Payment(object):
@@ -63,3 +67,45 @@ class Payment(object):
         params.requestId = self.generate_uuid()
 
         return self.config.http().post(self.payments_url + "/" + order_id + "/refund/", params)
+
+    def tokenize(self, params=None):
+        """
+        Create a checkout token
+        """
+        if params is None:
+            params = {}
+
+        if "amount" not in params:
+            raise ParamsError("Amount does not exist or is invalid")
+        if "amount" not in params["amount"]:
+            raise ParamsError("Amount does not exist or is invalid")
+        if "currency" not in params["amount"]:
+            raise ParamsError("Amount does not exist or is invalid")
+        if params["amount"]["currency"] not in ["AUD", "NZD", "USD", "CAD"]:
+            raise ParamsError("Invalid currency in Amount object")
+
+        if "consumer" not in params:
+            raise ParamsError("Consumer object does not exist or is invalid")
+        if "email" not in params["consumer"]:
+            raise ParamsError("Consumer object does not exist or is invalid")
+        if "givenNames" not in params["consumer"]:
+            raise ParamsError("Consumer object does not exist or is invalid")
+        if "surname" not in params["consumer"]:
+            raise ParamsError("Consumer object does not exist or is invalid")
+
+        if "shipping" not in params:
+            raise ParamsError("Shipping does not exist or is invalid")
+        if "name" not in params["shipping"]:
+            raise ParamsError("Shipping does not exist or is invalid")
+        if "line1" not in params["shipping"]:
+            raise ParamsError("Shipping does not exist or is invalid")
+        if "area1" not in params["shipping"]:
+            raise ParamsError("Shipping does not exist or is invalid")
+        if "region" not in params["shipping"]:
+            raise ParamsError("Shipping does not exist or is invalid")
+        if "postcode" not in params["shipping"]:
+            raise ParamsError("Shipping does not exist or is invalid")
+        if "countryCode" not in params["shipping"]:
+            raise ParamsError("Shipping does not exist or is invalid")
+
+        return self.config.http().post(self.config.api_url() + "/checkouts/", params)

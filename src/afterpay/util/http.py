@@ -141,6 +141,7 @@ class Http(object):
     def __headers(self, header_overrides=None):
         headers = {
             "Accept": "application/json",
+            "Content-Type": "application/json",
             "Authorization": self.__authorization_header(),
             "User-Agent": "Python Afterpay Library " + version.Version,
         }
@@ -151,7 +152,7 @@ class Http(object):
 
     def __request_body(self, content_type, params, files):
         if content_type == Http.ContentType.Json:
-            request_body = json.loads(params) if params else ''
+            request_body = json.dumps(params) if params else ''
             return request_body
         elif files == None:
             return params
