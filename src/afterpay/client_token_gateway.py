@@ -10,51 +10,70 @@ class ClientTokenGateway(object):
         """
         Generate a client token
         :param params: Request parameters
-            :param amount: Total amount for order to be charged to consumer.
-                :param amount: The amount as a string representation of a decimal number, rounded to 2 decimal places.
-                :param currency: The currency in ISO 4217 format. Supported values include "AUD", "NZD", "USD", and
+            amount: Total amount for order to be charged to consumer.
+                amount: The amount as a string representation of a decimal number, rounded to 2 decimal places.
+                currency: The currency in ISO 4217 format. Supported values include "AUD", "NZD", "USD", and
                 "CAD". However, the value provided must correspond to the currency of the Merchant account making
                 the request.
-            :param consumer: The consumer requesting the order.
-                :param givenNames: The consumer’s first name and any middle names. Limited to 128 characters.
-                :param surname: The consumer’s last name. Limited to 128 characters.
-                :param email: The consumer’s email address. Limited to 128 characters.
-                :param phoneNumber?: The consumer’s phone number. Limited to 32 characters.
-            :param shipping: Shipping address object
-                :param name: Full name of contact. Limited to 255 characters.
-                :param line1: First line of the address. Limited to 128 characters.
-                :param line2?: Second line of the address. Limited to 128 characters
-                :param area1: Australian suburb, New Zealand town or city, U.K. Postal town, U.S. or Canadian city.
+            consumer: The consumer requesting the order.
+                givenNames: The consumer’s first name and any middle names. Limited to 128 characters.
+                surname: The consumer’s last name. Limited to 128 characters.
+                email: The consumer’s email address. Limited to 128 characters.
+                phoneNumber?: The consumer’s phone number. Limited to 32 characters.
+            shipping: Shipping address object
+                name: Full name of contact. Limited to 255 characters.
+                line1: First line of the address. Limited to 128 characters.
+                line2?: Second line of the address. Limited to 128 characters
+                area1: Australian suburb, New Zealand town or city, U.K. Postal town, U.S. or Canadian city.
                 Limited to 128 characters.
-                :param area2?: New Zealand suburb or U.K. village or local area. Limited to 128 characters.
-                :param region: Australian state, New Zealand region, U.K. county, Canadian Territory or Province,
+                area2?: New Zealand suburb or U.K. village or local area. Limited to 128 characters.
+                region: Australian state, New Zealand region, U.K. county, Canadian Territory or Province,
                 or U.S. state. Limited to 128 characters.
-                :param postcode: ZIP or postal code. Limited to 128 characters
-                :param countryCode: The two-character ISO 3166-1 country code.
-                :param phoneNumber?: The phone number, in E.123 format. Limited to 32 characters
-            :param merchant: Merchant data
-                :param redirectConfirmUrl: Checkout confirmation URL
-                :param redirectCancelUrl: Checkout cancellation URL
-            :param billing?: Billing address object
-            :param courier?: Courier object
-            :param items?: An array of order items
-            :param discounts?: An array of discounts
+                postcode: ZIP or postal code. Limited to 128 characters
+                countryCode: The two-character ISO 3166-1 country code.
+                phoneNumber?: The phone number, in E.123 format. Limited to 32 characters
+            merchant: Merchant data
+                redirectConfirmUrl: Checkout confirmation URL
+                redirectCancelUrl: Checkout cancellation URL
+            billing?: Billing address object
+            courier?: Courier object
+            items?: An array of order items
+            discounts?: An array of discounts
         """
         if params is None:
             params = {}
+
         if "amount" not in params:
-            raise ParamsError("Missing required parameter: amount")
+            raise ParamsError("Amount does not exist or is invalid")
+        if "amount" not in params["amount"]:
+            raise ParamsError("Amount does not exist or is invalid")
+        if "currency" not in params["amount"]:
+            raise ParamsError("Amount does not exist or is invalid")
+        if params["amount"]["currency"] not in ["AUD", "NZD", "USD", "CAD"]:
+            raise ParamsError("Invalid currency in Amount object")
+
         if "consumer" not in params:
-            raise ParamsError("Missing required parameter: consumer")
+            raise ParamsError("Consumer object does not exist or is invalid")
+        if "email" not in params["consumer"]:
+            raise ParamsError("Consumer object does not exist or is invalid")
+        if "givenNames" not in params["consumer"]:
+            raise ParamsError("Consumer object does not exist or is invalid")
+        if "surname" not in params["consumer"]:
+            raise ParamsError("Consumer object does not exist or is invalid")
+
         if "shipping" not in params:
-            raise ParamsError("Missing required parameter: shipping")
+            raise ParamsError("Shipping does not exist or is invalid")
+        if "name" not in params["shipping"]:
+            raise ParamsError("Shipping does not exist or is invalid")
+        if "line1" not in params["shipping"]:
+            raise ParamsError("Shipping does not exist or is invalid")
+        if "area1" not in params["shipping"]:
+            raise ParamsError("Shipping does not exist or is invalid")
+        if "region" not in params["shipping"]:
+            raise ParamsError("Shipping does not exist or is invalid")
+        if "postcode" not in params["shipping"]:
+            raise ParamsError("Shipping does not exist or is invalid")
+        if "countryCode" not in params["shipping"]:
+            raise ParamsError("Shipping does not exist or is invalid")
 
-        # Validate client_token
-        params = {'client_token': params}
-
-        response = self.config.http().post(self.config.api_url() + "/checkouts", params)
-
-        if "client_token" in response:
-            return response["client_token"]["value"]
-        else:
-            raise ValueError(response["api_error_response"]["message"])
+        return self.config.http().post(self.config.api_url() + "/checkouts/", params)

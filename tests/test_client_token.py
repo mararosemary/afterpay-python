@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-test_tokenize_request = {
+test_params = {
     "amount": {
         "amount": "25.00",
         "currency": "USD"
@@ -39,6 +39,5 @@ test_tokenize_request = {
 
 cfg = afterpay.Configuration(environment=afterpay.Environment.Sandbox_NA, merchant_id=os.environ.get("MERCHANT_ID"), secret_key=os.environ.get("SECRET_KEY"))
 gateway = afterpay.AfterpayGateway(config=cfg)
-payment = afterpay.Payment(gateway)
 
-print(payment.tokenize(test_tokenize_request))
+print(gateway.client_token.generate(test_params))
