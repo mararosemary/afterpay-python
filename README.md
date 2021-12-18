@@ -2,7 +2,7 @@
 Python library for interacting with Afterpay API, based on the `braintree_python` project
 
 ## Note
-This library is still work-in-progress and there is no current release
+This library may be functional but is still in development with no current release because features still need to be tested and refactored.
 
 ## Dependencies
 * requests
