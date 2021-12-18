@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='afterpay',
-    version='0.1',
+    version='0.2.0',
     author="nyneava",
     author_email="",
     description="Python library for interacting with Afterpay API",
