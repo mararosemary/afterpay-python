@@ -8,6 +8,7 @@ from afterpay.exceptions.invalid_headers import InvalidHeadersError
 from afterpay.exceptions.invalid_method import InvalidMethodError
 from afterpay.exceptions.params_error import ParamsError
 from afterpay.exceptions.payment_error import PaymentError
+from afterpay.exceptions.payment_not_found_error import PaymentNotFoundError
 from afterpay.exceptions.server_error import ServerError
 from afterpay.exceptions.token_error import TokenError
 from afterpay.exceptions.unexpected_error import UnexpectedError
@@ -33,6 +34,8 @@ class Http(object):
             raise AuthenticationError()
         elif status == 402:
             raise TokenError()
+        elif status == 404:
+            raise PaymentNotFoundError()
         elif status == 405:
             raise InvalidMethodError()
         elif status == 406:
