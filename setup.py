@@ -6,14 +6,15 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='afterpay',
-    version='0.2.0',
+    version='0.4.0',
     author="nyneava",
-    author_email="",
+    author_email="nyneava@gmail.com",
     description="Python library for interacting with Afterpay API",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/nyneava/afterpay-python",
-    packages=setuptools.find_packages(),
+    package_dir={"": "src"},
+    packages=setuptools.find_packages(where="src"),
     classifiers=[
      "Programming Language :: Python :: 3",
      "License :: OSI Approved :: MIT License",
