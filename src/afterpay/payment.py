@@ -78,6 +78,8 @@ class Payment(object):
             orderBy?: A field to order results by. If provided, must be one of "createdAt", "id",
             "totalAmount", "merchantReference" or "email".
             ascending?: true to order results in ascending order, or false for descending order.
+        :returns Example:
+            {'totalResults': 0, 'offset': 0, 'limit': 20, 'results': []}
         """
         if params is None:
             params = {}

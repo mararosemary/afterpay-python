@@ -6,12 +6,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 test_params = {
-    "token": os.environ.get("TEST_TOKEN"),
-    "merchantReference": "1"
+    "merchantReference": os.environ.get("TEST_ORDER_MERCHANT_REF")
 }
 
 cfg = afterpay.Configuration(environment=afterpay.Environment.Sandbox_NA, merchant_id=os.environ.get("MERCHANT_ID"), secret_key=os.environ.get("SECRET_KEY"))
 gateway = afterpay.AfterpayGateway(config=cfg)
 payment = afterpay.Payment(gateway)
 
-print(payment.capture(test_params))
+print(payment.reverse(token=os.environ.get("TEST_TOKEN"), params=test_params))

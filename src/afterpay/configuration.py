@@ -79,6 +79,14 @@ class Configuration(object):
             self._http_strategy = self.http()
 
         self.payment_limits = self.get_payment_limits()
+        if "minimumAmount" in self.payment_limits:
+            if "amount" in self.payment_limits["minimumAmount"]:
+                self.payment_limit_minimum = self.payment_limits["minimumAmount"]["amount"]
+            if "currency" in self.payment_limits["minimumAmount"]:
+                self.payment_limit_currency = self.payment_limits["minimumAmount"]["currency"]
+        if "maximumAmount" in self.payment_limits:
+            if "amount" in self.payment_limits["maximumAmount"]:
+                self.payment_limit_maximum = self.payment_limits["maximumAmount"]["amount"]
 
     def api_url(self):
         return self.environment.protocol + self.environment.server_and_port + "/" + self.api_version()

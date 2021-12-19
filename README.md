@@ -1,9 +1,11 @@
 # afterpay-python
-Python library for interacting with Afterpay API, based on the `braintree_python` project
+Python library for interacting with Afterpay API, based on the `braintree_python` project.
 
-## Note
-This library may be functional but is still in development. Features still need to be tested
-and code refactored.
+**This library is a pre-release and is not production-ready.**
+## Install
+Create a virtual environment and install the package:
+
+`pip install afterpay`
 
 ## Dependencies
 * requests
